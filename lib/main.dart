@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:super_woman_user/ui/screens/home/home_screen.dart';
 import 'package:super_woman_user/utils/routes.dart';
 import 'providers/themes.dart';
-import '/ui/screens/login/login.dart';
 
 void main() {
   return runApp(ChangeNotifierProvider<ThemeNotifier>(
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               theme: theme.getTheme(),
               debugShowCheckedModeBanner: false,
               routes: routes,
-              initialRoute: Login.routeName,
+              initialRoute: HomeScreen.routeName,
             ));
   }
 }

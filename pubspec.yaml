@@ -38,6 +38,8 @@ dependencies:
   shared_preferences: ^2.0.0
   provider:
   country_pickers:
+  font_awesome_flutter:
+  flutter_switch:
   
 dev_dependencies:
   flutter_test:

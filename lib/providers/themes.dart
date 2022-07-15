@@ -12,6 +12,8 @@ class ThemeNotifier with ChangeNotifier {
       scaffoldBackgroundColor: kDarkBlueColor,
       // accentColor: Colors.white,
       // accentIconTheme: IconThemeData(color: Colors.black),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: kDarkBlueColor, unselectedItemColor: Colors.white),
       dividerColor: Colors.black12,
       appBarTheme:
           const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
@@ -22,6 +24,8 @@ class ThemeNotifier with ChangeNotifier {
       primaryColor: Colors.white,
       brightness: Brightness.light,
       backgroundColor: const Color(0xffffffff),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white, unselectedItemColor: Colors.black),
       fontFamily: 'poppins',
       appBarTheme:
           const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
@@ -41,9 +45,11 @@ class ThemeNotifier with ChangeNotifier {
             borderSide: BorderSide(color: kPrimaryColor)),
         focusedErrorBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: kPrimaryColor)),
-        contentPadding: const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 10.0));
+        contentPadding:
+            const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 10.0));
   }
 
+  bool _isDark = false;
   ThemeData _themeData = ThemeData(
     primarySwatch: Colors.blue,
     primaryColor: Colors.white,
@@ -57,14 +63,20 @@ class ThemeNotifier with ChangeNotifier {
         const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
   );
   ThemeData getTheme() => _themeData;
+  bool get isDark => _isDark;
+  //  set setIsDark(val) {
+  //   _isDark = val;
+  // }
 
   ThemeNotifier() {
     StorageManager.readData('themeMode').then((value) {
       var themeMode = value ?? 'light';
       if (themeMode == 'light') {
         _themeData = lightTheme;
+        _isDark = false;
       } else {
         _themeData = darkTheme;
+        _isDark = true;
       }
       notifyListeners();
     });
@@ -73,12 +85,14 @@ class ThemeNotifier with ChangeNotifier {
   void setDarkMode() async {
     _themeData = darkTheme;
     StorageManager.saveData('themeMode', 'dark');
+    _isDark = true;
     notifyListeners();
   }
 
   void setLightMode() async {
     _themeData = lightTheme;
     StorageManager.saveData('themeMode', 'light');
+    _isDark = false;
     notifyListeners();
   }
 }

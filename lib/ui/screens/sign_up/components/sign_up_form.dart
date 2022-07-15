@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:super_woman_user/ui/widgets/primary_button.dart';
 
 import '../../../../utils/constants.dart';
+import '../../otp/otp.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -20,23 +21,24 @@ class _SignUpFormState extends State<SignUpForm> {
   String? _phoneNumber;
   int? _countryCode;
 
-   formSumit() {
-    if (_formKey.currentState!.validate()) {}
+  formSumit() {
+    if (_formKey.currentState!.validate()) {
+      Navigator.pushNamed(context, Otp.routeName, arguments:Otp(phoneNo: _phoneNumber?? ''));
+    }
   }
-  Widget _buildDropdownItem(Country country) =>
-      Text("+${country.phoneCode}");
+
+  Widget _buildDropdownItem(Country country) => Text("+${country.phoneCode}");
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('Full name'),
-          const SizedBox(height: kDefaultPadding*0.3),
+          const SizedBox(height: kDefaultPadding * 0.3),
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -63,7 +65,7 @@ class _SignUpFormState extends State<SignUpForm> {
           // ),
           const SizedBox(height: kDefaultPadding),
           const Text('Date of birth'),
-          const SizedBox(height: kDefaultPadding*0.3),
+          const SizedBox(height: kDefaultPadding * 0.3),
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -75,10 +77,12 @@ class _SignUpFormState extends State<SignUpForm> {
               hintText: "Choose your birth date",
             ),
           ),
-          
-          const SizedBox(height: kDefaultPadding,),
+
+          const SizedBox(
+            height: kDefaultPadding,
+          ),
           const Text('Educational Level'),
-          const SizedBox(height: kDefaultPadding*0.3),
+          const SizedBox(height: kDefaultPadding * 0.3),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
@@ -105,9 +109,11 @@ class _SignUpFormState extends State<SignUpForm> {
                   )
                 ]),
           ),
-          const SizedBox(height: kDefaultPadding,),
+          const SizedBox(
+            height: kDefaultPadding,
+          ),
           const Text('Phone Number'),
-          const SizedBox(height: kDefaultPadding*0.3),
+          const SizedBox(height: kDefaultPadding * 0.3),
           Container(
             padding: const EdgeInsets.only(left: 8.0),
             width: double.infinity,
@@ -124,7 +130,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 Expanded(
                     child: TextFormField(
-                    
+                      keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '';
@@ -135,17 +141,18 @@ class _SignUpFormState extends State<SignUpForm> {
                     _fullName = value;
                   },
                   decoration: const InputDecoration(
-                    hintText: "Enter your phone number",
-                    errorText: null,
-                    errorStyle: TextStyle(height: 0)
-                  ),
+                      hintText: "Enter your phone number",
+                      errorText: null,
+                      errorStyle: TextStyle(height: 0)),
                 ))
               ],
             ),
           ),
-          const SizedBox(height: kDefaultPadding*0.5),
+          const SizedBox(height: kDefaultPadding * 0.5),
           const Text('We will text you to confirm your number'),
-          const SizedBox(height: kDefaultPadding*1.5,),
+          const SizedBox(
+            height: kDefaultPadding * 1.5,
+          ),
           PrimaryButton(text: 'Continue', press: formSumit)
         ],
       ),
