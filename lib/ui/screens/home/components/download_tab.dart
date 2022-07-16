@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:super_woman_user/ui/screens/home/role_model_content/role_model_content.dart';
 import '../../../../utils/constants.dart';
 
 class DownloadTab extends StatelessWidget {
@@ -12,13 +13,13 @@ class DownloadTab extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         child: Column(
-          children: [
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
+          children: const [
+            CardItem(),
+            CardItem(),
+            CardItem(),
+            CardItem(),
+            CardItem(),
+            CardItem(),
           ],
         ),
       ),
@@ -29,13 +30,11 @@ class DownloadTab extends StatelessWidget {
 class CardItem extends StatelessWidget {
   const CardItem({
     Key? key,
-    required this.size,
   }) : super(key: key);
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(top: kDefaultPadding),
       child: InkWell(
@@ -82,26 +81,32 @@ class CardItem extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
                           decoration: const BoxDecoration(
                             color: kPrimaryColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15)),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
                           ),
-                          child: Row(
-                            children: const [
-                              Icon(
-                                FontAwesomeIcons.bookOpen,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: kDefaultPadding / 2,
-                              ),
-                              Text(
-                                'Read',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, RoleModelContent.routeName);
+                            },
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  FontAwesomeIcons.bookOpen,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: kDefaultPadding / 2,
+                                ),
+                                Text(
+                                  'Read',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
                           )),
                       IconButton(
                           onPressed: () {}, icon: const Icon(Icons.pause)),

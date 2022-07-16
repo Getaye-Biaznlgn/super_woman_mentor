@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:super_woman_user/providers/themes.dart';
+import 'package:super_woman_user/ui/screens/edit_phone_no/edit_phone_no.dart';
+import 'package:super_woman_user/ui/screens/edit_profile/edit_profile.dart';
+import 'package:super_woman_user/ui/screens/interest_setting/screen_argument.dart';
+import 'package:super_woman_user/ui/screens/mentor_request/mentor_request.dart';
+import 'package:super_woman_user/ui/screens/my_mentor/my_mentor.dart';
 import 'package:super_woman_user/utils/constants.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
-class AccountTab extends StatefulWidget {
-  AccountTab({Key? key}) : super(key: key);
+import '../../interest_setting/interest_setting.dart';
 
-  @override
-  State<AccountTab> createState() => _AccountTabState();
-}
-
-class _AccountTabState extends State<AccountTab> {
-  bool _status = true;
-
+class AccountTab extends StatelessWidget {
+  const AccountTab({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -37,30 +36,42 @@ class _AccountTabState extends State<AccountTab> {
               height: kDefaultPadding,
             ),
             const MentorBanner(),
-            const ListTile(
-              leading: Icon(FontAwesomeIcons.user),
-              title: Text('Edit Profile'),
-              trailing: Icon(Icons.arrow_forward_ios),
+            ListTile(
+                leading: const Icon(FontAwesomeIcons.user),
+                title: const Text('Edit Profile'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.pushNamed(context, EditProfile.routeName);
+                }),
+            ListTile(
+                leading: const Icon(Icons.call_outlined),
+                title: const Text('Phone Number'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.pushNamed(context, EditPhoneNo.routeName);
+                }),
+            ListTile(
+                leading: const Icon(FontAwesomeIcons.userNinja),
+                title: const Text('My Mentor'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.pushNamed(context, MyMentor.routeName);
+                }),
+            ListTile(
+              leading: const Icon(FontAwesomeIcons.inbox),
+              title: const Text('My Interest'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.pushNamed(context, InterestSetting.routeName, arguments: ScreenArgument(isInSetting: true,));
+              },
             ),
-            const ListTile(
-              leading: Icon(Icons.call_outlined),
-              title: Text('Phone Number'),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-            const ListTile(
-              leading: Icon(FontAwesomeIcons.userNinja),
-              title: Text('My Mentor'),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-            const ListTile(
-              leading: Icon(FontAwesomeIcons.inbox),
-              title: Text('My Interest'),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-            const ListTile(
-              leading: Icon(FontAwesomeIcons.question),
-              title: Text('Request'),
-              trailing: Icon(Icons.arrow_forward_ios),
+            ListTile(
+              leading: const Icon(FontAwesomeIcons.question),
+              title: const Text('Request'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.pushNamed(context, MentorRequest.routeName);
+              },
             ),
             ListTile(
                 leading: const Icon(Icons.remove_red_eye_outlined),
@@ -71,6 +82,7 @@ class _AccountTabState extends State<AccountTab> {
                   width: 100,
                   child: FlutterSwitch(
                       value: themeNotifier.isDark,
+                      activeColor: kSecondaryColor,
                       onToggle: (value) {
                         if (value) {
                           themeNotifier.setDarkMode();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_woman_user/utils/constants.dart';
 
 class RoleModelContent extends StatelessWidget {
@@ -17,24 +18,30 @@ class RoleModelContent extends StatelessWidget {
           ),
           title: const Text('Lorem Ipsum Dolor sit...'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-          child: Column(children: [
-            const Expanded(
-              child: SingleChildScrollView(child: Text('lorem')),
-            ),
-            Card(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(icon: const Icon(Icons.back_hand), onPressed: () {}),
-                IconButton(
-                  icon: const Icon(Icons.forward),
-                  onPressed: () {},
-                )
-              ],
-            ))
-          ]),
-        ));
+        body: Column(children: [
+          const Expanded(
+            child: SingleChildScrollView(
+                child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              child: Text('lorem'),
+            )),
+          ),
+          Card(
+              color: Colors.transparent,
+              elevation: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      icon: const Icon(FontAwesomeIcons.arrowLeft),
+                      onPressed: () {}),
+                  const Text('1 of 10 pages'),
+                  IconButton(
+                    icon: const Icon(FontAwesomeIcons.arrowRight),
+                    onPressed: () {},
+                  )
+                ],
+              ))
+        ]));
   }
 }
