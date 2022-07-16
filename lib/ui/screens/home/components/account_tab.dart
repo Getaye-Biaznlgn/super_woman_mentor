@@ -5,6 +5,7 @@ import 'package:super_woman_user/providers/themes.dart';
 import 'package:super_woman_user/ui/screens/edit_phone_no/edit_phone_no.dart';
 import 'package:super_woman_user/ui/screens/edit_profile/edit_profile.dart';
 import 'package:super_woman_user/ui/screens/interest_setting/screen_argument.dart';
+import 'package:super_woman_user/ui/screens/mentor/mentor.dart';
 import 'package:super_woman_user/ui/screens/mentor_request/mentor_request.dart';
 import 'package:super_woman_user/ui/screens/my_mentor/my_mentor.dart';
 import 'package:super_woman_user/utils/constants.dart';
@@ -131,7 +132,7 @@ class MentorBanner extends StatelessWidget {
               vertical: kDefaultPadding / 2, horizontal: kDefaultPadding),
           color: Colors.white,
           onPressed: () {
-            // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            Navigator.pushNamed(context, Mentor.routeName);
           },
           child: const Text(
             'Find Mentor',

@@ -13,15 +13,10 @@ class HomeTab extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         child: Column(
           children: [
-            Container(
-              decoration:
-                  BoxDecoration(border: Border.all(color: kPrimaryColor)),
-              child: SizedBox(
-              
-                  height: size.height * 0.2,
-                  width: double.infinity,
-                  child: Image.asset('assets/images/r1.jpg', fit: BoxFit.fill,)),
-            ),
+            SizedBox(
+                height: size.height * 0.25,
+                width: double.infinity,
+                child: Image.asset('assets/images/r1.jpg', fit: BoxFit.fill,)),
             const SizedBox(
               height: kDefaultPadding,
             ),

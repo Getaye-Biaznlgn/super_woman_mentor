@@ -11,6 +11,7 @@ class Body extends StatelessWidget {
       child: Column(
         children: [
           const ListTile(
+            isThreeLine: true,
             leading: CircleAvatar(
               radius: 30,
               backgroundColor: kPrimaryColor,
@@ -19,7 +20,7 @@ class Body extends StatelessWidget {
                 style: TextStyle(fontSize: 24,color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
-            title: Text('Eden Getachew'),
+            title: Text('Eden Getachew',style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text('Project Manager, Google\n10 Mentee'),
           ),
          const SizedBox(height: kDefaultPadding,),
