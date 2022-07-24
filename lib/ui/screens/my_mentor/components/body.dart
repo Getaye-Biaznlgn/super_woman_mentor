@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_woman_user/ui/screens/chat/chat_screen.dart';
 import 'package:super_woman_user/utils/constants.dart';
 
 class Body extends StatelessWidget {
@@ -17,13 +18,19 @@ class Body extends StatelessWidget {
               backgroundColor: kPrimaryColor,
               child: Text(
                 'E',
-                style: TextStyle(fontSize: 24,color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
             ),
-            title: Text('Eden Getachew',style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text('Eden Getachew',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text('Project Manager, Google\n10 Mentee'),
           ),
-         const SizedBox(height: kDefaultPadding,),
+          const SizedBox(
+            height: kDefaultPadding,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -36,7 +43,9 @@ class Body extends StatelessWidget {
                 style: ElevatedButton.styleFrom(primary: Colors.white),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, ChatScreen.routeName);
+                },
                 child: const Text(
                   'Send Message',
                   style: TextStyle(color: Colors.white),

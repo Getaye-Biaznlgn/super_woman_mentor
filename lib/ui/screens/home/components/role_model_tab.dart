@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_woman_user/ui/screens/role_model_detail/role_model_detail.dart';
 import '../../../../utils/constants.dart';
 
 class RoleModelTab extends StatelessWidget {
@@ -11,13 +12,13 @@ class RoleModelTab extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         child: Column(
-          children: [
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
+          children: const [
+            CardItem(),
+            CardItem(),
+            CardItem(),
+            CardItem(),
+            CardItem(),
+            CardItem(),
           ],
         ),
       ),
@@ -28,17 +29,17 @@ class RoleModelTab extends StatelessWidget {
 class CardItem extends StatelessWidget {
   const CardItem({
     Key? key,
-    required this.size,
   }) : super(key: key);
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(top: kDefaultPadding),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, RoleModelDetail.routeName);
+        },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

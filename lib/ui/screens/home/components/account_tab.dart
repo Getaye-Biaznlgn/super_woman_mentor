@@ -10,7 +10,9 @@ import 'package:super_woman_user/ui/screens/mentor_request/mentor_request.dart';
 import 'package:super_woman_user/ui/screens/my_mentor/my_mentor.dart';
 import 'package:super_woman_user/utils/constants.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../../l10n/L10n.dart';
+import '../../../../providers/locale_provider.dart';
 import '../../interest_setting/interest_setting.dart';
 
 class AccountTab extends StatelessWidget {
@@ -19,6 +21,7 @@ class AccountTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+    final provider = Provider.of<LocaleProvider>(context);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -63,7 +66,10 @@ class AccountTab extends StatelessWidget {
               title: const Text('My Interest'),
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
-                Navigator.pushNamed(context, InterestSetting.routeName, arguments: ScreenArgument(isInSetting: true,));
+                Navigator.pushNamed(context, InterestSetting.routeName,
+                    arguments: ScreenArgument(
+                      isInSetting: true,
+                    ));
               },
             ),
             ListTile(
@@ -75,23 +81,48 @@ class AccountTab extends StatelessWidget {
               },
             ),
             ListTile(
-                leading: const Icon(Icons.remove_red_eye_outlined),
-                title: const Text('Dark Mode'),
-                contentPadding: const EdgeInsets.only(right: 0, left: 15),
-                trailing: SizedBox(
-                  height: 30,
-                  width: 100,
-                  child: FlutterSwitch(
-                      value: themeNotifier.isDark,
-                      activeColor: kSecondaryColor,
-                      onToggle: (value) {
-                        if (value) {
-                          themeNotifier.setDarkMode();
-                        } else {
-                          themeNotifier.setLightMode();
-                        }
-                      }),
-                )),
+              leading: const Icon(Icons.remove_red_eye_outlined),
+              title: const Text('Dark Mode'),
+              contentPadding: const EdgeInsets.only(right: 0, left: 15),
+              trailing: SizedBox(
+                height: 30,
+                width: 100,
+                child: FlutterSwitch(
+                    value: themeNotifier.isDark,
+                    activeColor: kSecondaryColor,
+                    onToggle: (value) {
+                      if (value) {
+                        themeNotifier.setDarkMode();
+                      } else {
+                        themeNotifier.setLightMode();
+                      }
+                    }),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(FontAwesomeIcons.globe),
+              title: Text(AppLocalizations.of(context)!.language),
+              trailing: DropdownButton<Locale>(
+                value: provider.locale,
+                icon: const Icon(Icons.arrow_drop_down),
+                elevation: 16,
+                // style: const TextStyle(color: Colors.deepPurple),
+                // underline: Container(
+                //   height: 2,
+                //   color: Colors.deepPurpleAccent,
+                // ),
+                onChanged: (Locale? newValue) {
+                  // dropdownValue = newValue!;
+                  provider.setLocale(newValue ?? const Locale('en'));
+                },
+                items: L10n.all.map<DropdownMenuItem<Locale>>((Locale value) {
+                  return DropdownMenuItem<Locale>(
+                    value: value,
+                    child: Text(value.languageCode),
+                  );
+                }).toList(),
+              ),
+            ),
             const SizedBox(
               child: ListTile(
                 leading: Icon(Icons.logout),
