@@ -2,5 +2,16 @@
     "language":"language",
     "@language":{
         "description":"The current language"
-    }
+    },
+    "roleModelAppBarTitle":"Role Models",
+    "myDownloadsAppBarTitle":"My Downloads",
+    "profileAppBarTitle":"Profile",
+    "homeNavBarTitle":"Home",
+    "roleNavBarTitle":"Role Models",
+    "downloadNavBarTitle":"Downloads",
+    "profileNavBarTitle":"Profile",
+
+    "seeAll":"See All",
+    "recentPublished":"Recent Published"
+    
 }

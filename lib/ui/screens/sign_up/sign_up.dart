@@ -8,7 +8,7 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset : false,
+      //  resizeToAvoidBottomInset : false,
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Fill your info'),

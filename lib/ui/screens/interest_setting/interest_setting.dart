@@ -6,27 +6,24 @@ import 'screen_argument.dart';
 class InterestSetting extends StatelessWidget {
   static String routeName = '/interest-setting';
   // bool? isInSetting = false;
-   InterestSetting({Key? key}) : super(key: key);
+  const InterestSetting({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-        final args = ModalRoute.of(context)!.settings.arguments as ScreenArgument;
-
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArgument;
+    
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
+          leading: args.isInSetting? IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.pop(context);
             },
-          ),
-          title: args.isInSetting?   const Text('My Interest') : const  Text('Choose Your Interst')
-          
-          ),
-         
-      
-      body:  Body(isInSetting: args.isInSetting),
+          ):Container(),
+          title: args.isInSetting
+              ? const Text('My Interest')
+              : const Text('Choose Your Interst')),
+      body: Body(isInSetting: false),
     );
   }
 }
-

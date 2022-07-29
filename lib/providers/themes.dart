@@ -44,9 +44,14 @@ class ThemeNotifier with ChangeNotifier {
         errorBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: kPrimaryColor)),
         focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: kPrimaryColor)),
+            borderSide: BorderSide(color: kPrimaryColor)
+            ),
+        disabledBorder:  OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor)
+            ),
         contentPadding:
             const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 10.0));
+            
   }
 
   bool _isDark = false;

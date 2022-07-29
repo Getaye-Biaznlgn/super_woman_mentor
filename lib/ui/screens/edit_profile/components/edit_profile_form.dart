@@ -153,7 +153,15 @@ class _EditProfileFormState extends State<EditProfileForm> {
           const SizedBox(
             height: kDefaultPadding * 1.5,
           ),
-          PrimaryButton(text: 'Update', press: formSumit)
+          PrimaryButton(
+              child: const Text(
+                'Continue',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              press: formSumit)
         ],
       ),
     );

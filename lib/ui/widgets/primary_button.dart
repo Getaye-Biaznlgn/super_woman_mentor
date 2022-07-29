@@ -4,13 +4,13 @@ import 'package:super_woman_user/utils/constants.dart';
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     Key? key,
-    required this.text,
+    required this.child,
     required this.press,
     this.color = kPrimaryColor,
-    this.padding = const EdgeInsets.all(kDefaultPadding * 0.7),
+    this.padding = const EdgeInsets.all(kDefaultPadding * 0.6),
   }) : super(key: key);
 
-  final String text;
+  final Widget child;
   final VoidCallback press;
   final color;
   final EdgeInsets padding;
@@ -25,11 +25,7 @@ class PrimaryButton extends StatelessWidget {
       color: color,
       minWidth: double.infinity,
       onPressed: press,
-      child: Text(
-        text,
-        style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-      ),
+      child: child,
     );
   }
 }

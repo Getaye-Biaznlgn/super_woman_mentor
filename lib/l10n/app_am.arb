@@ -1,3 +1,14 @@
 {
-    "language":"ቋንቋ"
+    "language":"ቋንቋ",
+    "roleModelAppBarTitle":"አርአያ",
+    "myDownloadsAppBarTitle":"የወረዱ",
+    "profileAppBarTitle":"ፕሮፋይል",
+    "homeNavBarTitle":"መነሻ",
+    "roleNavBarTitle":"አርአያ",
+    "downloadNavBarTitle":"የወረዱ",
+    "profileNavBarTitle":"ፕሮፋይል",
+
+    "seeAll":"ሁሉንም አሳይ",
+    "recentPublished":"በቅርብ የወጡ"
+    
 }

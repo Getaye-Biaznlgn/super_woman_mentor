@@ -4,28 +4,52 @@ import 'package:http/http.dart' as http;
 import 'api_exception.dart';
 
 class ApiBaseHelper {
-  final String _baseUrl = "http://";
-  Future<dynamic> get(String url) async {
+  final String _baseUrl = "http://192.168.0.5:8000";
+  Future<dynamic> get({required String url, token}) async {
     print('Api Get, url $url');
-    var responseJson;
+    final responseJson;
     try {
-      final response = await http.get(Uri.parse(_baseUrl + url));
+      final http.Response response = await http.get(Uri.parse(_baseUrl + url),
+         headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
       responseJson = _returnResponse(response);
     } on SocketException {
-      print('No net');
       throw FetchDataException(message: 'No Internet connection');
     }
     print('api get recieved!');
     return responseJson;
   }
 
+  Future<dynamic> post({required String url, required payload, token}) async {
+    final responseJson;
+    try {
+      final http.Response response = await http.post(Uri.parse(_baseUrl + url),
+          body: json.encode(payload),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          });
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      throw FetchDataException(message: 'No Internet connection');
+    }
+    print('api get recieved');
+    return responseJson;
+  }
+
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        var responseJson = json.decode(response.body.toString());
-        print(responseJson);
+      case 201:
+        var responseJson = json.decode(response.body);
         return responseJson;
       case 400:
+      case 404:
         throw BadRequestException(response.body.toString());
       case 401:
       case 403:
@@ -34,7 +58,7 @@ class ApiBaseHelper {
       default:
         throw FetchDataException(
           message:
-              'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
+              'Error occured while Communication with Server with StatusCode : ${response.body}',
         );
     }
   }

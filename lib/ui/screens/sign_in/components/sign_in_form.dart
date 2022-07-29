@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:super_woman_user/ui/widgets/primary_button.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:country_pickers/country.dart';
 import 'package:super_woman_user/utils/constants.dart';
+
+import '../../../../providers/auth.dart';
+import '../../otp/otp.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key}) : super(key: key);
@@ -13,12 +17,45 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
-  String? country;
-  String? phoneNo;
+  String _phoneCode = "+251";
+  String? _phoneNo;
   bool isChecked = true;
+  bool _isLoading = false;
+  String _errorText = "";
+  // formSumit() {
+  //   if (_formKey.currentState!.validate()) {
 
-  formSumit() {
-    if (_formKey.currentState!.validate()) {}
+  //   }
+  // }
+  Future<void> _formSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+        _errorText = "";
+      });
+      try {
+        Auth auth = Auth();
+        await auth.signIn(
+          _phoneCode + _phoneNo!,
+        );
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => Otp(
+                      phoneNo: _phoneCode + _phoneNo!,
+                    )));
+      } catch (e) {
+
+        // setState(() {
+        //   _errorText = e.toString();
+        // });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Widget _buildDropdownItem(Country country) => Row(
@@ -63,7 +100,7 @@ class _SignInFormState extends State<SignInForm> {
                 initialValue: 'et',
                 itemBuilder: _buildDropdownItem,
                 onValuePicked: (Country country) {
-                  print(country.name);
+                  _phoneCode = country.phoneCode;
                 },
               ),
             ),
@@ -75,21 +112,23 @@ class _SignInFormState extends State<SignInForm> {
                 }
                 return null;
               },
+              onChanged: (value) {
+                _phoneNo = value;
+              },
               decoration: const InputDecoration(
-                hintText: "Phone number",
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xffd1d1d1))),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xffd1d1d1))),
-               errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: kPrimaryColor)
-               ),
-               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color:kPrimaryColor)
-               )
-              ),
+                  hintText: "Phone number",
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xffd1d1d1))),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xffd1d1d1))),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: kPrimaryColor)),
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: kPrimaryColor))),
             ),
-            const SizedBox(height: kDefaultPadding*0.5,),
+            const SizedBox(
+              height: kDefaultPadding * 0.5,
+            ),
             const Text('We will text you to confirm your number'),
             Row(
               children: [
@@ -106,8 +145,37 @@ class _SignInFormState extends State<SignInForm> {
                 const Text('Remember me')
               ],
             ),
-           const SizedBox(height: kDefaultPadding,),
-            PrimaryButton(text: 'Continue', press: formSumit),
+            const SizedBox(
+              height: kDefaultPadding,
+            ),
+            PrimaryButton(
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Continue',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.only(left: kDefaultPadding),
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      )
+                  ],
+                ),
+                // const Text(
+                //   'Continue',
+                //   style: TextStyle(
+                //       color: Colors.white,
+                //       fontWeight: FontWeight.bold,
+                //       fontSize: 20),
+                // ),
+                press: _formSubmit),
           ],
         ),
       ),

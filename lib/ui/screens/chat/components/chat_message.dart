@@ -35,7 +35,7 @@ class ChatMessage extends StatelessWidget {
                   ? const Radius.elliptical(500, 0)
                   : const Radius.circular(10)),
           color: isDark
-              ? Color.fromARGB(59, 88, 116, 146)
+              ? const Color.fromARGB(59, 88, 116, 146)
               : const Color(0xffd1d1d1)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

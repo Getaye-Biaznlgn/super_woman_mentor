@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../utils/constants.dart';
 
 class HomeTab extends StatelessWidget {
@@ -16,26 +16,32 @@ class HomeTab extends StatelessWidget {
             SizedBox(
                 height: size.height * 0.25,
                 width: double.infinity,
-                child: Image.asset('assets/images/r1.jpg', fit: BoxFit.fill,)),
+                child: Image.asset(
+                  'assets/images/r1.jpg',
+                  fit: BoxFit.fill,
+                )),
             const SizedBox(
               height: kDefaultPadding,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Text(
-                  'Recent Published',
-                  style: TextStyle(fontSize: kBodyMediumTextSize),
+                  " ",
+                  // AppLocalizations.of(context)!.recentPublished,
+                  style: const TextStyle(fontSize: kBodyMediumTextSize),
                 ),
-                Text('See All')
+                Text(""
+                  // AppLocalizations.of(context)!.seeAll
+                  )
               ],
             ),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
-            CardItem(size: size),
+            const CardItem(),
+            const CardItem(),
+            const CardItem(),
+            const CardItem(),
+            const CardItem(),
+            const CardItem(),
           ],
         ),
       ),
@@ -46,10 +52,7 @@ class HomeTab extends StatelessWidget {
 class CardItem extends StatelessWidget {
   const CardItem({
     Key? key,
-    required this.size,
   }) : super(key: key);
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {

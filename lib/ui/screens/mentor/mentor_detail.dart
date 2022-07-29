@@ -121,7 +121,13 @@ class _MentorDetailState extends State<MentorDetail> {
               height: 10,
             ),
             PrimaryButton(
-                text: 'Mentoring Request',
+                child: const Text(
+                    'Continue',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
                 press: () {
                   Navigator.pushNamed(context, MentorRequestForm.routeName);
                 }),

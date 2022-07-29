@@ -5,6 +5,7 @@ import 'components/role_model_tab.dart';
 import 'package:super_woman_user/utils/constants.dart';
 import 'components/home_tab.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = '/home-screen';
@@ -62,34 +63,44 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       case 1:
-        return const Text('Role Models');
+        return  Text("role model",
+          // AppLocalizations.of(context)!.roleModelAppBarTitle
+          );
       case 2:
-        return const Text('My Downloads');
+        return  Text("downlaods",
+          // AppLocalizations.of(context)!.myDownloadsAppBarTitle
+          );
       case 3:
-        return const Text('Profile');
+        return  Text("profile"
+          // AppLocalizations.of(context)!.profileAppBarTitle
+          );
       default:
-        return Container();
+        return  const Text('');
     }
   }
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items:  <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
+          icon: const Icon(Icons.home_outlined),
+          label: ""
+          // AppLocalizations.of(context)!.homeNavBarTitle,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search_outlined),
-          label: 'Role Models',
+          icon: const Icon(Icons.search_outlined),
+          label: ""
+          // AppLocalizations.of(context)!.roleModelAppBarTitle,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.file_download_outlined),
-          label: 'Downloads',
+          icon: const Icon(Icons.file_download_outlined),
+          label: ""
+          // AppLocalizations.of(context)!.myDownloadsAppBarTitle,
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.user),
-          label: 'Profile',
+          icon: const Icon(FontAwesomeIcons.user),
+          label:"Profile" 
+          // AppLocalizations.of(context)!.profileAppBarTitle,
         ),
       ],
       currentIndex: _selectedIndex,

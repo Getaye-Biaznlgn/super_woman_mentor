@@ -4,7 +4,7 @@ import 'otp_form.dart';
 
 class Body extends StatelessWidget {
   Body({this.phoneNo});
-  String? phoneNo;
+  String? phoneNo ="";
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
                 "Enter the code we sent over SMS to ${phoneNo??''}",
               ),
               // buildTimer(),
-           const   OtpForm(),
+              OtpForm(phoneNo: phoneNo?? "",),
              
             ],
           ),

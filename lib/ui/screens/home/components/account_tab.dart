@@ -10,7 +10,7 @@ import 'package:super_woman_user/ui/screens/mentor_request/mentor_request.dart';
 import 'package:super_woman_user/ui/screens/my_mentor/my_mentor.dart';
 import 'package:super_woman_user/utils/constants.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../l10n/L10n.dart';
 import '../../../../providers/locale_provider.dart';
 import '../../interest_setting/interest_setting.dart';
@@ -19,7 +19,6 @@ class AccountTab extends StatelessWidget {
   const AccountTab({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     final provider = Provider.of<LocaleProvider>(context);
     return SingleChildScrollView(
@@ -101,7 +100,9 @@ class AccountTab extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(FontAwesomeIcons.globe),
-              title: Text(AppLocalizations.of(context)!.language),
+              title: Text('Lang'
+               // AppLocalizations.of(context)!.language
+                ),
               trailing: DropdownButton<Locale>(
                 value: provider.locale,
                 icon: const Icon(Icons.arrow_drop_down),

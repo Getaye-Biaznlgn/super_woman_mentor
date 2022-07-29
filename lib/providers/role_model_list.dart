@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/foundation.dart';
 import '../models/role_model.dart';
 import '../services/api_base_helper.dart';
 
@@ -8,7 +7,7 @@ class RoleModelList with ChangeNotifier {
   late List<RoleModel> roleModels;
   final ApiBaseHelper _helper = ApiBaseHelper();
   Future<List<RoleModel>> fetchMovieList() async {
-    final response = await _helper.get("movie/popular?api_key=");
+    final response = await _helper.get(url: "movie/popular?api_key=");
      var rest = response["articles"] as List;
         roleModels= rest.map<RoleModel>((json) => RoleModel.fromJson(json)).toList();
     return roleModels;

@@ -7,11 +7,9 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        child: SignUpForm(),
-      ),
+    return const Padding(
+      padding:  EdgeInsets.symmetric(horizontal: kDefaultPadding),
+      child: SignUpForm(),
     );
   }
 }

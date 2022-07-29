@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:super_woman_user/ui/widgets/primary_button.dart';
 import 'package:super_woman_user/utils/constants.dart';
 
 class Body extends StatelessWidget {
