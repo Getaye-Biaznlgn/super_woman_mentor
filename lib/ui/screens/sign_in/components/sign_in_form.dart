@@ -46,7 +46,6 @@ class _SignInFormState extends State<SignInForm> {
                       phoneNo: _phoneCode + _phoneNo!,
                     )));
       } catch (e) {
-
         // setState(() {
         //   _errorText = e.toString();
         // });
@@ -67,7 +66,7 @@ class _SignInFormState extends State<SignInForm> {
           ),
           country.name.length > 15
               ? Text(country.name.substring(0, 15) + " (${country.phoneCode})")
-              : Text(country.name + " (${country.phoneCode})"),
+              : Text(country.name + "+ (${country.phoneCode})"),
         ],
       );
 
@@ -98,6 +97,7 @@ class _SignInFormState extends State<SignInForm> {
                   border: Border.all(color: const Color(0XFFd1d1d1))),
               child: CountryPickerDropdown(
                 initialValue: 'et',
+                isExpanded: true,
                 itemBuilder: _buildDropdownItem,
                 onValuePicked: (Country country) {
                   _phoneCode = country.phoneCode;
@@ -149,7 +149,7 @@ class _SignInFormState extends State<SignInForm> {
               height: kDefaultPadding,
             ),
             PrimaryButton(
-                child:Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(

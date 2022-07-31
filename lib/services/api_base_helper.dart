@@ -18,7 +18,7 @@ class ApiBaseHelper {
       );
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException(message: 'No Internet connection');
+     throw FetchDataException(message: 'No Internet connection');
     }
     print('api get recieved!');
     return responseJson;

@@ -4,6 +4,7 @@ import 'components/body.dart';
 class RoleModelDetail extends StatelessWidget {
   const RoleModelDetail({Key? key}) : super(key: key);
   static const String routeName = '/role-model-detail';
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

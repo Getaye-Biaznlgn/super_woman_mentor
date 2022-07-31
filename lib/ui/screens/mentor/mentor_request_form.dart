@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:super_woman_user/utils/constants.dart';
+
+import '../../../models/mentor.dart';
+import '../../../providers/auth.dart';
 
 class MentorRequestForm extends StatefulWidget {
   static const routeName = '/mentor-request-form';
@@ -11,6 +15,43 @@ class MentorRequestForm extends StatefulWidget {
 
 class _MentorRequestFormState extends State<MentorRequestForm> {
   final _formKey = GlobalKey<FormState>();
+  String? _message;
+  bool _isLoading = false;
+  String _errorText = "";
+
+  Future<void> _formSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+        _errorText = "";
+      });
+      try {
+        String token = Provider.of<Auth>(context, listen: false).token;
+        final mentorId = ModalRoute.of(context)!.settings.arguments as int;
+
+        MentorLists mentorLists = MentorLists();
+        Map<String, dynamic> message = {'message': _message};
+        await mentorLists.sendMentorRequest(mentorId, message, token);
+        ScaffoldMessenger.of(context).showSnackBar(
+          
+          const SnackBar(
+            content: Text('Request is sent successfully'),
+          ),
+          
+        );
+        // Navigator.pop(context);
+      } catch (e) {
+        setState(() {
+          _errorText = e.toString();
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +74,9 @@ class _MentorRequestFormState extends State<MentorRequestForm> {
               children: [
                 TextFormField(
                   maxLines: null,
+                  onChanged: (value) {
+                    _message = value;
+                  },
                   keyboardType: TextInputType.multiline,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -63,16 +107,36 @@ class _MentorRequestFormState extends State<MentorRequestForm> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   color: kPrimaryColor,
                   minWidth: double.infinity,
-                  onPressed: () {},
-                  child: const Text(
-                    'Send Mentoring Request',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  onPressed: _formSubmit,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Send Mentoring Request',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                      if (_isLoading)
+                        const Padding(
+                          padding: EdgeInsets.only(left: kDefaultPadding),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                    ],
                   ),
+                  //const Text(
+                  //   'Send Mentoring Request',
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                 ),
+                Text(_errorText),
               ],
             ),
           ),

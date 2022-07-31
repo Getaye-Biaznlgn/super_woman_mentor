@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:super_woman_user/ui/screens/home/role_model_content/role_model_content.dart';
 import '../../../../utils/constants.dart';
+import '../../role_model_detail/role_model_content.dart';
 
 class DownloadTab extends StatelessWidget {
   const DownloadTab({Key? key}) : super(key: key);

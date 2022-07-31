@@ -1,23 +1,36 @@
+
 class RoleModel {
+  int id;
+  String intro;
   String title;
   String img;
-  String description;
   int like;
   int view;
-
+  int share;
+  int comment;
+  
   RoleModel(
       {required this.title,
+      required this.id,
+      required this.intro,
       required this.img,
-      required this.description,
       required this.like,
-      required this.view});
-      
+      required this.share,
+      required this.comment,
+      required this.view,
+});
+
   factory RoleModel.fromJson(Map<String, dynamic> json) {
     return RoleModel(
-        title: json['title'],
-        img: json['img'],
-        description: json['description'],
-        like: json['like'],
-        view: json['view']);
+      id: json['id'],
+      title: json['title'],
+      like: json['like'],
+      view: json['view'],
+      intro: json['intro'],
+      img: json['image']['path'],
+      share: json['share'],
+      comment: json['comment'],
+      
+    );
   }
 }

@@ -4,14 +4,15 @@ import 'package:super_woman_user/services/api_base_helper.dart';
 import '../services/storage_manager.dart';
 
 class Auth with ChangeNotifier {
+  ApiBaseHelper apiBaseHelper = ApiBaseHelper();
+
   String? _token = '39|5VCtYdRIq5HSuCDWOLkDH8FAGTwsn53hr1Zegx8D';
   String? _lastName;
   String? _firstName;
-  String? _email;
   String? _phoneNumber;
   String? _bio;
 
-  // String? date_of_birth;
+  String? _dob;
   String? _profilePicture;
   int? _educationLevelId;
   // page loading controller
@@ -20,12 +21,22 @@ class Auth with ChangeNotifier {
     _token = json['access_token'];
     _firstName = json['user']['first_name'];
     _lastName = json['user']['last_name'];
-    _email = json['user']['email'];
     _phoneNumber = json['user']['phone_number'];
     _profilePicture = json['user']['profile_picture'];
     _educationLevelId = json['user']['education_level_id'];
     notifyListeners();
     print('😂😂😂');
+  }
+
+  _fromJsonUserData(Map<String, dynamic> json) {
+    _firstName = json['first_name'];
+    _lastName = json['last_name'];
+    _phoneNumber = json['phone_number'] ?? _phoneNumber;
+    _profilePicture = json['profile_picture'];
+    _educationLevelId = json['education_level_id'];
+    _bio = json['bio'];
+    _dob = json['date_of_birth'];
+    notifyListeners();
   }
 
   //
@@ -35,11 +46,10 @@ class Auth with ChangeNotifier {
 
   Future signIn(phoneNo) async {
     Map<String, dynamic> data = {'phone_number': phoneNo};
-    ApiBaseHelper apiBaseHelper = ApiBaseHelper();
-    var signUpResponse =
+    var signInResponse =
         await apiBaseHelper.post(url: '/user/login', payload: data);
-    print('signup');
-    return signUpResponse;
+    print('signIn');
+    return signInResponse;
   }
 
   Future signUp(
@@ -48,7 +58,6 @@ class Auth with ChangeNotifier {
       required dob,
       required eduLevelId,
       required phoneNo}) async {
-    ApiBaseHelper apiBaseHelper = ApiBaseHelper();
     Map<String, dynamic> userInfo = {
       'first_name': lastName,
       'last_name': firstName,
@@ -62,22 +71,28 @@ class Auth with ChangeNotifier {
   }
 
   Future verifyOtp({required phoneNo, required otp}) async {
-    ApiBaseHelper apiBaseHelper = ApiBaseHelper();
     Map<String, dynamic> userInfo = {'phone_number': phoneNo, 'otp': otp};
-
     var verifyOtpResponse =
         await apiBaseHelper.post(url: '/user/verify_phone', payload: userInfo);
     print(verifyOtpResponse);
     if (verifyOtpResponse != null) {
       _fromJson(verifyOtpResponse);
-          StorageManager.saveData('authToken', _token);
+      StorageManager.saveData('authToken', _token);
     }
+    // return verifyOtpResponse;
+  }
 
+  Future getUserInfo({required token}) async {
+    var userData = await apiBaseHelper.get(url: '/user/user', token: token);
+    if (userData != null) {
+      _fromJsonUserData(userData);
+    }
+    print('😫');
+    print(userData);
     // return verifyOtpResponse;
   }
 
   Future resendOtp({required phoneNo}) async {
-    ApiBaseHelper apiBaseHelper = ApiBaseHelper();
     Map<String, dynamic> userInfo = {'phone_number': phoneNo};
 
     var resendOtpResponse =
@@ -93,6 +108,30 @@ class Auth with ChangeNotifier {
     return true;
   }
 
+  Future editProfile(
+      {required firstName,
+      required lastName,
+      required dob,
+      required eduLevelId,
+      required bio,
+      required token}) async {
+    Map<String, dynamic> userInfo = {
+      'first_name': lastName,
+      'last_name': firstName,
+      'bio':bio,
+      'date_of_birth': dob.toString(),
+      'education_level_id': eduLevelId,
+    };
+    print('😁😀 before update profile');
+    var editResponse = await apiBaseHelper.post(
+        url: '/user/update_profile', payload: userInfo, token: token);
+    print('😁😀 update profile');
+    print(editResponse);
+    if (editResponse != null) {
+      _fromJsonUserData(editResponse);
+    }
+  }
+
   get token {
     return _token;
   }
@@ -105,10 +144,6 @@ class Auth with ChangeNotifier {
     return _firstName;
   }
 
-  get email {
-    return _email;
-  }
-
   get phoneNumber {
     return _phoneNumber;
   }
@@ -117,7 +152,7 @@ class Auth with ChangeNotifier {
     return _bio;
   }
 
-  get profilePictue {
+  get profilePicture {
     return _profilePicture;
   }
 
@@ -125,6 +160,9 @@ class Auth with ChangeNotifier {
     return _educationLevelId;
   }
 
+  get dob {
+    return _dob;
+  }
   // bool get isLoading {
   //   return _isLoading;
   // }

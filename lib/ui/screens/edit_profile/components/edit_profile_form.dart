@@ -1,8 +1,9 @@
-// import 'package:country_pickers/country.dart';
-// import 'package:country_pickers/country_picker_dropdown.dart';
-// import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:super_woman_user/models/education_level.dart';
+import 'package:super_woman_user/providers/education_levels.dart';
 import 'package:super_woman_user/ui/widgets/primary_button.dart';
+import '../../../../providers/auth.dart';
 import '../../../../utils/constants.dart';
 
 class EditProfileForm extends StatefulWidget {
@@ -14,15 +15,83 @@ class EditProfileForm extends StatefulWidget {
 
 class _EditProfileFormState extends State<EditProfileForm> {
   final _formKey = GlobalKey<FormState>();
-  String? _fullName;
-  String? _educationLevel;
-  String? _bio;
+  final TextEditingController _dateFieldCtrl = TextEditingController();
+  final TextEditingController _firstNameCtrl = TextEditingController();
+  final TextEditingController _lastNameCtrl = TextEditingController();
+  final TextEditingController _bioCtrl = TextEditingController();
 
-  formSumit() {
-    if (_formKey.currentState!.validate()) {}
+  DateTime? _dob;
+  List<EducationLevel> _levelList = [];
+  late EducationLevel _selectedLevel;
+  bool _isLoading = false;
+  String _errorText = "";
+
+  formSumit() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+        _errorText = "";
+      });
+      try {
+        Auth auth = Provider.of<Auth>(context, listen: false);
+        await auth.editProfile(
+            firstName: _firstNameCtrl.text,
+            lastName: _lastNameCtrl.text,
+            dob: _dob.toString(),
+            eduLevelId: _selectedLevel.id,
+            token: auth.token,
+            bio: auth.bio);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Profile is upadted successfully.'),
+        ));
+      } catch (e) {
+        setState(() {
+          _errorText = 'error' + e.toString();
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
-  // Widget _buildDropdownItem(Country country) => Text("+${country.phoneCode}");
+  _selectDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      helpText: "SELECT YOUR BIRTH DATE",
+      initialDate: _dob ?? DateTime.now(),
+      firstDate: DateTime(1940),
+      lastDate: DateTime.now(),
+    );
+
+    if (selected != null && selected != _dob) {
+      setState(() {
+        _dob = selected;
+        _dateFieldCtrl.text = "${_dob?.day}/${_dob?.month}/${_dob?.year}";
+      });
+    }
+  }
+
+  setPreviousProfile(Auth auth, EducationLevels eduLevels) {
+    _dob = DateTime.parse(auth.dob);
+    _firstNameCtrl.text = auth.firstName;
+    _lastNameCtrl.text = auth.lastName;
+    _bioCtrl.text = auth.bio;
+    _dateFieldCtrl.text = "${_dob?.day}/${_dob?.month}/${_dob?.year}";
+    _levelList = eduLevels.educationalLevels;
+    _selectedLevel =
+        _levelList.firstWhere((el) => el.id == auth.educationLevelId);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Auth auth = Provider.of<Auth>(context, listen: false);
+    EducationLevels eduLevels =
+        Provider.of<EducationLevels>(context, listen: false);
+    setPreviousProfile(auth, eduLevels);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,57 +101,74 @@ class _EditProfileFormState extends State<EditProfileForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Full name'),
+          const Text('First name'),
           const SizedBox(height: kDefaultPadding * 0.3),
           TextFormField(
+            controller: _firstNameCtrl,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Enter full name';
+                return 'Enter First name';
               }
               return null;
             },
-            onChanged: (value) {
-              _fullName = value;
-            },
             decoration: const InputDecoration(
-              hintText: "Enter your full name",
+              hintText: "Enter your first name",
             ),
           ),
-          const SizedBox(height: kDefaultPadding),
-
+          const SizedBox(height: kDefaultPadding * 1 / 2),
+          const Text('Last name'),
+          const SizedBox(height: kDefaultPadding * 0.3),
           TextFormField(
+            controller: _lastNameCtrl,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter last name';
+              }
+              return null;
+            },
+            // onChanged: (value) {
+            //   _lastName = value;
+            // },
+            decoration: const InputDecoration(
+              hintText: "Enter your last name",
+            ),
+          ),
+          const SizedBox(height: kDefaultPadding * 1 / 2),
+          const Text('Bio'),
+          const SizedBox(height: kDefaultPadding * 0.3),
+          TextFormField(
+            controller: _bioCtrl,
             keyboardType: TextInputType.multiline,
             maxLines: null,
-            // validator: (value) {
-            //   if (value == null || value.isEmpty) {
-            //     return 'Enter your bio';
-            //   }
-            //   return null;
-            // },
-            onChanged: (value) {
-              _bio = value;
-            },
             decoration: const InputDecoration(
               hintText: "Bio",
             ),
           ),
-          const SizedBox(height: kDefaultPadding),
+          const SizedBox(height: kDefaultPadding * 1 / 2),
           const Text('Date of birth'),
           const SizedBox(height: kDefaultPadding * 0.3),
           TextFormField(
+            controller: _dateFieldCtrl,
+            keyboardType: TextInputType.none,
+            enabled: true,
+            // initialValue: "${_dob.day}/${_dob.month}/${_dob.year}",
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Enter full name';
+                return 'Enter birth date';
               }
               return null;
             },
-            decoration: const InputDecoration(
-              hintText: "Choose your birth date",
-            ),
+            decoration: InputDecoration(
+                hintText: "Choose your birth date",
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.calendar_month),
+                  onPressed: () {
+                    _selectDate(context);
+                  },
+                )),
           ),
-
           const SizedBox(
-            height: kDefaultPadding,
+            height: kDefaultPadding * 1 / 2,
           ),
           const Text('Educational Level'),
           const SizedBox(height: kDefaultPadding * 0.3),
@@ -90,78 +176,57 @@ class _EditProfileFormState extends State<EditProfileForm> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xffd1d1d1))),
-            child: DropdownButton<String>(
-                value: _educationLevel,
+            child: DropdownButton<EducationLevel>(
+                value: _selectedLevel,
+                isExpanded: true,
                 // icon: const Icon(Icons.arrow_downward),
                 elevation: 8,
                 underline: Container(
                   height: 0,
                 ),
-                onChanged: (String? newValue) {
+                onChanged: (EducationLevel? newValue) {
                   setState(() {
-                    _educationLevel = newValue!;
+                    _selectedLevel = newValue!;
                   });
                 },
-                items: const [
-                  DropdownMenuItem(
-                    child: Text('Grade 12'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Grade 11',
-                    child: Text('Grade 11'),
-                  )
-                ]),
+                items: _levelList
+                    .map((EducationLevel level) =>
+                        DropdownMenuItem<EducationLevel>(
+                            value: level, child: Text(level.level ?? "")))
+                    .toList()),
           ),
           const SizedBox(
-            height: kDefaultPadding,
+            height: kDefaultPadding * 1 / 2,
           ),
           const SizedBox(height: kDefaultPadding * 0.3),
-          // Container(
-          //   padding: const EdgeInsets.only(left: 8.0),
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(
-          //       border: Border.all(color: const Color(0XFFd1d1d1))),
-          //   child: Row(
-          //     children: [
-          //       CountryPickerDropdown(
-          //         initialValue: 'et',
-          //         itemBuilder: _buildDropdownItem,
-          //         onValuePicked: (Country country) {
-          //           print(country.name);
-          //         },
-          //       ),
-          //       Expanded(
-          //           child: TextFormField(
-          //         keyboardType: TextInputType.number,
-          //         validator: (value) {
-          //           if (value == null || value.isEmpty) {
-          //             return '';
-          //           }
-          //           return null;
-          //         },
-          //         onChanged: (value) {
-          //           _fullName = value;
-          //         },
-          //         decoration: const InputDecoration(
-          //             hintText: "Enter your phone number",
-          //             errorText: null,
-          //             errorStyle: TextStyle(height: 0)),
-          //       ))
-          //     ],
-          //   ),
-          // ),
           const SizedBox(
             height: kDefaultPadding * 1.5,
           ),
           PrimaryButton(
-              child: const Text(
-                'Continue',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Continue',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  if (_isLoading)
+                    const Padding(
+                      padding: EdgeInsets.only(left: kDefaultPadding),
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                ],
               ),
-              press: formSumit)
+              press: formSumit),
+          Text(
+            _errorText,
+            style: const TextStyle(color: kPrimaryColor),
+          )
         ],
       ),
     );

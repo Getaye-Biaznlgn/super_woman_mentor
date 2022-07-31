@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:super_woman_user/ui/screens/mentor/mentor_request_form.dart';
 import 'package:super_woman_user/ui/widgets/primary_button.dart';
 import 'package:super_woman_user/utils/constants.dart';
+import '../../../models/mentor.dart';
 import 'components/mentor_availability.dart';
 import 'components/mentor_experience.dart';
 
 class MentorDetail extends StatefulWidget {
   static const String routeName = '/mentor-detail';
+
   MentorDetail({Key? key}) : super(key: key);
 
   @override
@@ -18,6 +20,8 @@ class _MentorDetailState extends State<MentorDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final mentor = ModalRoute.of(context)!.settings.arguments as Mentor;
+
     final PageController _controller = PageController();
     return Scaffold(
         body: Padding(
@@ -28,9 +32,10 @@ class _MentorDetailState extends State<MentorDetail> {
         child: Column(
           children: [
             MentorProfile(
-              name: 'Eden Getachew',
+              name: mentor.firstName + ' ' + mentor.lastName,
               field: 'Project Manager, Google',
-              noOfMentee: 2,
+              noOfMentee: mentor.noOfMentee,
+              ppic: mentor.profilePicture,
             ),
             const SizedBox(
               height: kDefaultPadding / 2,
@@ -111,9 +116,9 @@ class _MentorDetailState extends State<MentorDetail> {
                 onPageChanged: (index) {
                   _selectedIndex = index;
                 },
-                children: const <Widget>[
-                  MentorExperience(),
-                  MentorAvailability()
+                children: <Widget>[
+                  MentorExperience(experiences: mentor.experiences ?? []),
+                  MentorAvailability(availability: mentor.availablity ?? [])
                 ],
               ),
             ),
@@ -122,14 +127,14 @@ class _MentorDetailState extends State<MentorDetail> {
             ),
             PrimaryButton(
                 child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
+                  'Mentoring Request',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
                 press: () {
-                  Navigator.pushNamed(context, MentorRequestForm.routeName);
+                  Navigator.pushNamed(context, MentorRequestForm.routeName, arguments: mentor.id);
                 }),
             const SizedBox(
               height: 10,
@@ -145,10 +150,12 @@ class MentorProfile extends StatelessWidget {
   String name;
   String field;
   int noOfMentee;
+  String? ppic;
   MentorProfile({
     required this.name,
     required this.field,
     required this.noOfMentee,
+    this.ppic,
     Key? key,
   }) : super(key: key);
 
@@ -160,15 +167,22 @@ class MentorProfile extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        CircleAvatar(
-          radius: 36,
-          child: Text(
-            name.substring(0, 1).toUpperCase(),
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 32),
-          ),
-          backgroundColor: kPrimaryColor,
-        ),
+        (ppic == null)
+            ? CircleAvatar(
+                radius: 36,
+                child: Text(
+                  name.substring(0, 1).toUpperCase(),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 32),
+                ),
+                backgroundColor: kPrimaryColor,
+              )
+            : CircleAvatar(
+                radius: 36,
+                backgroundImage: NetworkImage(ppic!),
+              ),
         const SizedBox(
           height: 10,
         ),

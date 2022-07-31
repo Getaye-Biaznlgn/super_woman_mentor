@@ -5,13 +5,14 @@ import 'package:super_woman_user/providers/themes.dart';
 import 'package:super_woman_user/ui/screens/edit_phone_no/edit_phone_no.dart';
 import 'package:super_woman_user/ui/screens/edit_profile/edit_profile.dart';
 import 'package:super_woman_user/ui/screens/interest_setting/screen_argument.dart';
-import 'package:super_woman_user/ui/screens/mentor/mentor.dart';
+import 'package:super_woman_user/ui/screens/mentor/mentor_screen.dart';
 import 'package:super_woman_user/ui/screens/mentor_request/mentor_request.dart';
 import 'package:super_woman_user/ui/screens/my_mentor/my_mentor.dart';
 import 'package:super_woman_user/utils/constants.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../l10n/L10n.dart';
+import '../../../../providers/auth.dart';
 import '../../../../providers/locale_provider.dart';
 import '../../interest_setting/interest_setting.dart';
 
@@ -21,19 +22,36 @@ class AccountTab extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     final provider = Provider.of<LocaleProvider>(context);
+    final auth = Provider.of<Auth>(context);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ListTile(
-              leading: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage('assets/images/profile.jpg')),
-              title: Text('Ruhama Abebe'),
-              subtitle: Text(
-                  'Grade 12 student, have passion to be a software Engineer.'),
+            ListTile(
+              leading: auth.profilePicture == null
+                  ? CircleAvatar(
+                      radius: 30,
+                      backgroundColor: kPrimaryColor,
+                      child: Text(
+                        auth.firstName?.substring(0, 1).toUpperCase() ?? '',
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  : CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(auth.profilePicture!),
+                    ),
+              // const CircleAvatar(
+              //     radius: 30,
+              //     backgroundImage: AssetImage('assets/images/profile.jpg'),
+              // ),
+              title: Text(auth.firstName ?? ' ' ' ' + (auth.lastName ?? "")),
+              subtitle: Text(auth.bio ?? " "),
             ),
             const SizedBox(
               height: kDefaultPadding,
@@ -101,8 +119,8 @@ class AccountTab extends StatelessWidget {
             ListTile(
               leading: const Icon(FontAwesomeIcons.globe),
               title: Text('Lang'
-               // AppLocalizations.of(context)!.language
-                ),
+                  // AppLocalizations.of(context)!.language
+                  ),
               trailing: DropdownButton<Locale>(
                 value: provider.locale,
                 icon: const Icon(Icons.arrow_drop_down),
@@ -164,7 +182,7 @@ class MentorBanner extends StatelessWidget {
               vertical: kDefaultPadding / 2, horizontal: kDefaultPadding),
           color: Colors.white,
           onPressed: () {
-            Navigator.pushNamed(context, Mentor.routeName);
+            Navigator.pushNamed(context, MentorScreen.routeName);
           },
           child: const Text(
             'Find Mentor',

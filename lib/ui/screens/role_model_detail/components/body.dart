@@ -1,173 +1,199 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:super_woman_user/controller/role_model.dart';
+import 'package:super_woman_user/models/role_model_detail.dart';
 import 'package:super_woman_user/utils/constants.dart';
+
+import '../../../../models/comment.dart';
+import '../../../../providers/auth.dart';
 
 class Body extends StatelessWidget {
   Body({Key? key}) : super(key: key);
-  final images = [
-    'assets/images/r1.jpg',
-    'assets/images/r2.jpg',
-    'assets/images/r3.jpg',
-    'assets/images/r4.jpg',
-    'assets/images/r5.jpg'
-  ];
+  RoleModelController rmCtrl = RoleModelController();
+
   @override
   Widget build(BuildContext context) {
+    final int id = ModalRoute.of(context)!.settings.arguments as int;
     final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-      child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: size.height * 0.25,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: images.length,
-                itemBuilder: (context, index) => Container(
-                    height: size.height * 0.25,
-                    width: size.width * 0.9,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.asset(
-                        images[index],
-                        fit: BoxFit.cover,
-                      ),
-                    ))),
-          ),
-          const SizedBox(
-            height: kDefaultPadding,
-          ),
-          Text(
-            'Lorem ipsum dolor sit'.toUpperCase(),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: kDefaultPadding / 2,
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: kPrimaryColor,
-                ),
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    Icon(FontAwesomeIcons.bookOpenReader, color: Colors.white),
-                    SizedBox(
-                      width: 5,
+      child: FutureBuilder(
+          future: rmCtrl.fetchRoleModel(id),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Faild to load data'),
+                );
+              } else if (snapshot.hasData) {
+                RoleModelDetail roleModel = snapshot.data as RoleModelDetail;
+                return Column(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Carousel(size: size, images: roleModel.images ?? []),
+                    const SizedBox(
+                      height: kDefaultPadding,
                     ),
-                    Text('START READING',
-                        style: TextStyle(color: Colors.white, fontSize: 12))
+                    Text(
+                      roleModel.title.toUpperCase(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: kDefaultPadding / 2,
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: kPrimaryColor,
+                          ),
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: const [
+                              Icon(FontAwesomeIcons.bookOpenReader,
+                                  color: Colors.white),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('START READING',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12))
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: kSecondaryColor,
+                          ),
+                          onPressed: () {},
+                          child: Row(
+                            children: const [
+                              Icon(
+                                FontAwesomeIcons.play,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('LISTEN AUDIO',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12))
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.download_for_offline_outlined,
+                              size: 32,
+                            ))
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      child: Text(roleModel.intro),
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.thumb_up,
+                              size: 20,
+                            )),
+                        Text(
+                          roleModel.like.toString(),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              FontAwesomeIcons.solidComment,
+                              size: 20,
+                            )),
+                        Text(
+                          roleModel.comment.toString(),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(FontAwesomeIcons.linkedin)),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(FontAwesomeIcons.facebook)),
+                      ],
+                    ),
+                    const Divider(
+                      color: kPrimaryColor,
+                    ),
+                    CommentComponent(comments: roleModel.comments ?? [])
                   ],
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: kSecondaryColor,
-                ),
-                onPressed: () {},
-                child: Row(
-                  children: const [
-                    Icon(
-                      FontAwesomeIcons.play,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text('LISTEN AUDIO',
-                        style: TextStyle(color: Colors.white, fontSize: 12))
-                  ],
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.download_for_offline_outlined,
-                    size: 32,
-                  ))
-              // ElevatedButton(
-              //   style: ElevatedButton.styleFrom(
-              //       // primary: kSecondaryColor,
-              //       ),
-              //   onPressed: () {},
-              //   child: Row(
-              //     children: const [
-              //       Icon(FontAwesomeIcons.bookOpenReader, color: Colors.white),
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
-          const Padding(
-            padding: EdgeInsets.all(kDefaultPadding / 2),
-            child: Text('To change the Elevated Button color'
-                'in Flutter, simply set the style property'
-                ' of Elevated Button from the ElevatedButton.'
-                ' styleFrom() static method and set the primary'
-                ' property to the appropriate color'
-                'simply set the style property'
-                ' of Elevated Button from the ElevatedButton.'
-                ' styleFrom() static method and set the primary'
-                ' property to the appropriate color'),
-          ),
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.thumb_up,
-                    size: 20,
-                  )),
-              const Text(
-                '1.2K',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    FontAwesomeIcons.solidComment,
-                    size: 20,
-                  )),
-              const Text(
-                '1.2K',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(FontAwesomeIcons.linkedin)),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(FontAwesomeIcons.facebook)),
-            ],
-          ),
-          const Divider(
-            color: kPrimaryColor,
-          ),
-          Comment()
-        ],
-      ),
+                );
+              }
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }
 
-class Comment extends StatelessWidget {
-  const Comment({
+class Carousel extends StatelessWidget {
+  const Carousel({
+    Key? key,
+    required this.size,
+    required this.images,
+  }) : super(key: key);
+
+  final Size size;
+  final List<String> images;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: size.height * 0.25,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: images.length,
+          itemBuilder: (context, index) => Container(
+              height: size.height * 0.25,
+              width: size.width * 0.9,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: FadeInImage(
+                  image: NetworkImage(
+                    images[index],
+                  ),
+                  placeholder: const AssetImage('assets/images/r1.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ))),
+    );
+  }
+}
+
+class CommentComponent extends StatelessWidget {
+  List<Comment> comments;
+  CommentComponent({
+    required this.comments,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Auth auth = Provider.of<Auth>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
       child: Column(
@@ -184,24 +210,41 @@ class Comment extends StatelessWidget {
             height: 5,
           ),
           Row(
-            children: const [
-              Icon(
-                Icons.account_circle,
-                size: 32,
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(auth.profilePicture),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
-              Expanded(
-                  child: TextField(
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(5),
+              const Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(5),
+                  ),
                 ),
-              ))
+              )
             ],
           ),
-          const Text('No comment')
+          if (comments.isEmpty) const Text('No comment'),
+          ...List.generate(
+            comments.length,
+            (index) => Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(comments[index].profileImage),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(child: Text(comments[index].content))
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

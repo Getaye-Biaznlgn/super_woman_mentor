@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'components/body.dart';
 
-class Mentor extends StatelessWidget {
+class MentorScreen extends StatelessWidget {
   static const String routeName = '/mentor';
-  const Mentor({Key? key}) : super(key: key);
+  const MentorScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mentors'),
@@ -17,7 +18,7 @@ class Mentor extends StatelessWidget {
           },
         ),
       ),
-      body: const Body(),
+      body:  Body(),
     );
   }
 }
