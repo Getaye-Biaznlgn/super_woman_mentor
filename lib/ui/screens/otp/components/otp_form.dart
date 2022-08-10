@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:super_woman_user/ui/screens/home/home_screen.dart';
 import 'package:super_woman_user/ui/widgets/primary_button.dart';
 import 'package:super_woman_user/utils/constants.dart';
 import '../../../../providers/auth.dart';
@@ -68,11 +69,11 @@ class _OtpFormState extends State<OtpForm> {
   Future<void> formSubmit() async {
     // if (_formKey.currentState!.validate()) {
     String otp = _ctrl1.text.toString() +
-        _ctrl2.text +
-        _ctrl3.text +
-        _ctrl4.text +
-        _ctrl5.text +
-        _ctrl6.text;
+        _ctrl2.text.toString() +
+        _ctrl3.text.toString() +
+        _ctrl4.text.toString() +
+        _ctrl5.text.toString() +
+        _ctrl6.text.toString();
     setState(() {
       _isLoading = true;
       _errorText = "";
@@ -83,7 +84,7 @@ class _OtpFormState extends State<OtpForm> {
         phoneNo: widget.phoneNo,
         otp: otp,
       );
-      Navigator.pushReplacementNamed(context, InterestSetting.routeName,
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName,
           arguments: ScreenArgument(isInSetting: false));
     } catch (e) {
       setState(() {

@@ -3,8 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:super_woman_user/controller/role_model.dart';
 import 'package:super_woman_user/models/role_model_detail.dart';
+import 'package:super_woman_user/ui/screens/role_model_detail/audio_play_page.dart';
+import 'package:super_woman_user/ui/screens/role_model_detail/role_model_content.dart';
 import 'package:super_woman_user/utils/constants.dart';
-
 import '../../../../models/comment.dart';
 import '../../../../providers/auth.dart';
 
@@ -36,6 +37,7 @@ class Body extends StatelessWidget {
                     ),
                     Text(
                       roleModel.title.toUpperCase(),
+                      textAlign: TextAlign.center,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
@@ -47,7 +49,10 @@ class Body extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             primary: kPrimaryColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, RoleModelContent.routeName, arguments: roleModel);
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
@@ -69,7 +74,10 @@ class Body extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             primary: kSecondaryColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, AudioPlayPage.routeName, arguments: roleModel);
+                          },
                           child: Row(
                             children: const [
                               Icon(
@@ -80,6 +88,7 @@ class Body extends StatelessWidget {
                                 width: 5,
                               ),
                               Text('LISTEN AUDIO',
+                                
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12))
                             ],

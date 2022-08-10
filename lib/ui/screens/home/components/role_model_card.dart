@@ -22,7 +22,8 @@ class RoleModelCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: kDefaultPadding),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, RoleModelDetail.routeName, arguments: id);
+          Navigator.pushNamed(context, RoleModelDetail.routeName,
+              arguments: id);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,30 +59,36 @@ class RoleModelCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Icon(
                               Icons.thumb_up_outlined,
                               size: kBodyMediumTextSize * 0.8,
                             ),
-                          ),
-                          Text(like.toString()),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(like.toString()),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Icon(
                               Icons.message,
                               size: kBodyMediumTextSize * 0.8,
                             ),
-                          ),
-                          Text(comment.toString())
-                        ]),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(comment.toString())
+                          ]),
+                    ),
                   ),
                   Text(
                     intro,
-                    maxLines: 1,
+                    maxLines: 2,
                   )
                 ],
               ),

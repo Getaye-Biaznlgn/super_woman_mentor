@@ -13,8 +13,6 @@ class RoleModelController {
       Map<String, dynamic> map = roleModelResponse[i];
       roleModels.add(RoleModel.fromJson(map));
     }
-    print('role model 🙄');
-    print(roleModelResponse);
     return roleModels;
   }
 //RETURN ROLE MODEL DETAIL NOT ROLE MODEL

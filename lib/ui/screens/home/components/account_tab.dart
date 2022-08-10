@@ -142,8 +142,11 @@ class AccountTab extends StatelessWidget {
                 }).toList(),
               ),
             ),
-            const SizedBox(
+             SizedBox(
               child: ListTile(
+                onTap:(){
+                  
+                } ,
                 leading: Icon(Icons.logout),
                 title: Text('Logout'),
               ),

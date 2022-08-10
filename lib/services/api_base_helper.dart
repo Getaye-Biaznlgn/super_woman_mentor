@@ -3,24 +3,26 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'api_exception.dart';
 
+//570979
 class ApiBaseHelper {
-  final String _baseUrl = "http://192.168.0.5:8000";
+  //''
+  // "https://admin.super-women.merahitechnologies.com"
+  final String _baseUrl = "http://192.168.0.8:8000";
   Future<dynamic> get({required String url, token}) async {
-    print('Api Get, url $url');
+    // print('Api Get, url $url');
     final responseJson;
     try {
-      final http.Response response = await http.get(Uri.parse(_baseUrl + url),
-         headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token'
-          }
-      );
+      final http.Response response =
+          await http.get(Uri.parse(_baseUrl + url), headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
       responseJson = _returnResponse(response);
     } on SocketException {
-     throw FetchDataException(message: 'No Internet connection');
+      throw FetchDataException(message: 'No Internet connection');
     }
-    print('api get recieved!');
+    // print('api get recieved!');
     return responseJson;
   }
 
@@ -58,7 +60,7 @@ class ApiBaseHelper {
       default:
         throw FetchDataException(
           message:
-              'Error occured while Communication with Server with StatusCode : ${response.body}',
+              'Error occured while communication with server with statusCode : ${response.body}',
         );
     }
   }

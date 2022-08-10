@@ -5,10 +5,9 @@ import 'package:super_woman_user/providers/education_levels.dart';
 import 'package:super_woman_user/providers/auth.dart';
 import 'package:super_woman_user/providers/locale_provider.dart';
 import 'package:super_woman_user/ui/screens/home/home_screen.dart';
-import 'package:super_woman_user/ui/screens/interest_setting/interest_setting.dart';
 // import 'package:super_woman_user/ui/screens/home/home_screen.dart';
-import 'package:super_woman_user/ui/screens/sign_up/sign_up.dart';
 import 'package:super_woman_user/utils/routes.dart';
+import 'controller/message_controller.dart';
 import 'l10n/l10n.dart';
 import 'providers/education_levels.dart';
 import 'providers/themes.dart';
@@ -23,7 +22,8 @@ void main() {
       ),
       ChangeNotifierProvider<Auth>(create: (_) => Auth()),
       ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
-      ChangeNotifierProvider<EducationLevels>(create: (_) => EducationLevels())
+      ChangeNotifierProvider<EducationLevels>(create: (_) => EducationLevels()),
+      ChangeNotifierProvider<MessageController>(create: (_)=>MessageController())
     ],
     child: const MyApp(),
   ));

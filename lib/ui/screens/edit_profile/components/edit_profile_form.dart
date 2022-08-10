@@ -80,6 +80,8 @@ class _EditProfileFormState extends State<EditProfileForm> {
     _bioCtrl.text = auth.bio;
     _dateFieldCtrl.text = "${_dob?.day}/${_dob?.month}/${_dob?.year}";
     _levelList = eduLevels.educationalLevels;
+    print('');
+
     _selectedLevel =
         _levelList.firstWhere((el) => el.id == auth.educationLevelId);
   }

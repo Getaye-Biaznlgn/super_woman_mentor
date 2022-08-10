@@ -46,9 +46,9 @@ class _SignInFormState extends State<SignInForm> {
                       phoneNo: _phoneCode + _phoneNo!,
                     )));
       } catch (e) {
-        // setState(() {
-        //   _errorText = e.toString();
-        // });
+        setState(() {
+          _errorText = e.toString();
+        });
       } finally {
         setState(() {
           _isLoading = false;
@@ -176,6 +176,7 @@ class _SignInFormState extends State<SignInForm> {
                 //       fontSize: 20),
                 // ),
                 press: _formSubmit),
+                Text(_errorText),
           ],
         ),
       ),

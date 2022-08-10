@@ -1,5 +1,5 @@
 name: super_woman_user
-description: A new Flutter project.
+description: A Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -43,7 +43,15 @@ dependencies:
   font_awesome_flutter:
   flutter_switch:
   http: ^0.13.4
-
+  flutter_html:
+  # just_audio: ^0.9.28
+  audioplayers:
+  ably_flutter:
+  audio_video_progress_bar:
+  # audio_session: ^0.1.10
+  # pusher_channels_flutter:
+  # pusher_websocket_flutter:
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

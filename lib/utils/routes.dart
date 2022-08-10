@@ -5,6 +5,7 @@ import 'package:super_woman_user/ui/screens/edit_phone_no/edit_phone_no.dart';
 import 'package:super_woman_user/ui/screens/edit_profile/edit_profile.dart';
 import 'package:super_woman_user/ui/screens/home/home_screen.dart';
 import 'package:super_woman_user/ui/screens/interest_setting/interest_setting.dart';
+import 'package:super_woman_user/ui/screens/role_model_detail/audio_play_page.dart';
 import 'package:super_woman_user/ui/screens/sign_in/login.dart';
 import 'package:super_woman_user/ui/screens/mentor/mentor_screen.dart';
 import 'package:super_woman_user/ui/screens/mentor/mentor_detail.dart';
@@ -32,5 +33,7 @@ final Map<String, WidgetBuilder> routes = {
   MentorDetail.routeName: (context) =>  MentorDetail(),
   MentorRequestForm.routeName :(context) => const MentorRequestForm(),
   ChatScreen.routeName :(context) => const ChatScreen(),
-  RoleModelDetail.routeName : (context) => const RoleModelDetail()
+  RoleModelDetail.routeName : (context) => const RoleModelDetail(),
+    AudioPlayPage.routeName : (context) =>  AudioPlayPage()
+
 };

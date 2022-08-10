@@ -122,10 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ""
+        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"
             // AppLocalizations.of(context)!.homeNavBarTitle,
             ),
-        BottomNavigationBarItem(icon: Icon(Icons.search_outlined), label: ""
+        BottomNavigationBarItem(icon: Icon(Icons.search_outlined), label: "Role Model"
             // AppLocalizations.of(context)!.roleModelAppBarTitle,
             ),
         BottomNavigationBarItem(

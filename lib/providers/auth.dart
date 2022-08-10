@@ -5,8 +5,8 @@ import '../services/storage_manager.dart';
 
 class Auth with ChangeNotifier {
   ApiBaseHelper apiBaseHelper = ApiBaseHelper();
-
-  String? _token = '39|5VCtYdRIq5HSuCDWOLkDH8FAGTwsn53hr1Zegx8D';
+// '39|5VCtYdRIq5HSuCDWOLkDH8FAGTwsn53hr1Zegx8D'
+  String? _token;
   String? _lastName;
   String? _firstName;
   String? _phoneNumber;
@@ -17,6 +17,7 @@ class Auth with ChangeNotifier {
   int? _educationLevelId;
   // page loading controller
   // bool _isLoading = false;
+
   _fromJson(Map<String, dynamic> json) {
     _token = json['access_token'];
     _firstName = json['user']['first_name'];
@@ -42,6 +43,10 @@ class Auth with ChangeNotifier {
   //
   bool get isAuth {
     return _token != null;
+  }
+
+  Future logout(token) async {
+    await apiBaseHelper.post(url: '/user/login', token: token, payload: null);
   }
 
   Future signIn(phoneNo) async {
@@ -118,14 +123,13 @@ class Auth with ChangeNotifier {
     Map<String, dynamic> userInfo = {
       'first_name': lastName,
       'last_name': firstName,
-      'bio':bio,
+      'bio': bio,
       'date_of_birth': dob.toString(),
       'education_level_id': eduLevelId,
     };
     print('😁😀 before update profile');
     var editResponse = await apiBaseHelper.post(
         url: '/user/update_profile', payload: userInfo, token: token);
-    print('😁😀 update profile');
     print(editResponse);
     if (editResponse != null) {
       _fromJsonUserData(editResponse);

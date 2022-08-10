@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:super_woman_user/controller/message_controller.dart';
 
 import '../../../utils/constants.dart';
 import 'components/body.dart';
@@ -9,9 +11,10 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<MessageController>(context).bindAbly();
     return Scaffold(
       appBar: buildAppBar(context),
-      body: const Body(),
+      body: Body(),
     );
   }
 

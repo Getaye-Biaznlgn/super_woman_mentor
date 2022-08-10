@@ -3,8 +3,6 @@
 //working based on condition
 import 'package:super_woman_user/models/comment.dart';
 
-import '../services/api_base_helper.dart';
-
 class RoleModelDetail {
   int id;
   String intro;
@@ -47,11 +45,11 @@ class RoleModelDetail {
         id: json['id'],
         title: json['title'],
         like: json['like'],
-        view: json['view'],
+        view: json['view'] ,
         intro: json['intro'],
         images: images,
-        share: json['share'],
-        comment: json['comment'],
+        share:json['share'] ,
+        comment:json['comment']  ,
         content: json['content'],
         comments: comments,
         audioPath: json['audio_path']);
