@@ -51,17 +51,14 @@ class Mentor {
 
 class MentorLists {
   ApiBaseHelper apiBaseHelper = ApiBaseHelper();
-
   Future<List<Mentor>> fetchAllMentors() async {
     List<Mentor> mentors = [];
-
     final response = await apiBaseHelper.get(url: '/user/mentors');
     List mentorResponse = response['data'] as List;
     for (int i = 0; i < mentorResponse.length; i++) {
       Map<String, dynamic> map = mentorResponse[i];
       mentors.add(Mentor.fromJson(map));
     }
-
     return mentors;
   }
 
@@ -76,7 +73,8 @@ class MentorLists {
 
   Future sendMentorRequest(mentorId, message, token) async {
     return await apiBaseHelper.post(
-        url: '/user/send_mentor_request/$mentorId', payload: message, token: token);
+        url: '/user/send_mentor_request/$mentorId',
+        payload: message,
+        token: token);
   }
-
 }

@@ -21,7 +21,7 @@ class Message {
         mentorId: json['mentor_id'],
         message: json['message'],
         sender: json['sender'],
-        seen: json['seen'],
+        seen: json['seen']??1,
         createdAt: DateTime.parse(json['created_at']));
   }
 }

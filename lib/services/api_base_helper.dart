@@ -9,14 +9,14 @@ class ApiBaseHelper {
   // "https://admin.super-women.merahitechnologies.com"
   final String _baseUrl = "http://192.168.0.8:8000";
   Future<dynamic> get({required String url, token}) async {
-    // print('Api Get, url $url');
     final responseJson;
     try {
       final http.Response response =
           await http.get(Uri.parse(_baseUrl + url), headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer $token',
+        'Retry-After': '3600'
       });
       responseJson = _returnResponse(response);
     } on SocketException {
@@ -34,7 +34,7 @@ class ApiBaseHelper {
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer $token'
+            'Authorization': 'Bearer $token',
           });
       responseJson = _returnResponse(response);
     } on SocketException {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:super_woman_user/ui/widgets/primary_button.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:country_pickers/country.dart';

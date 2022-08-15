@@ -12,18 +12,19 @@ class MessageField extends StatelessWidget {
 
   final bool isDark;
   TextEditingController fieldController = TextEditingController();
-  _submitForm(token) async {
+  _submitForm(token, msgCtrl) async {
     if (fieldController.text == "") return;
-    MessageController messageController = MessageController();
+
     try {
-      await messageController.sendMessage(fieldController.text, token);
-      fieldController.text = "";
+      await msgCtrl.sendMessage(fieldController.text, token);
+      fieldController.clear();
     } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
     Auth auth = Provider.of<Auth>(context);
+    MessageController msgCtrl = Provider.of<MessageController>(context);
     return Card(
       color: Colors.transparent,
       child: Container(
@@ -37,7 +38,7 @@ class MessageField extends StatelessWidget {
               hintText: 'Write a message...',
               suffixIcon: IconButton(
                   onPressed: () {
-                    _submitForm(auth.token);
+                    _submitForm(auth.token, msgCtrl);
                   },
                   icon: const Icon(
                     Icons.send,

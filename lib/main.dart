@@ -23,7 +23,8 @@ void main() {
       ChangeNotifierProvider<Auth>(create: (_) => Auth()),
       ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
       ChangeNotifierProvider<EducationLevels>(create: (_) => EducationLevels()),
-      ChangeNotifierProvider<MessageController>(create: (_)=>MessageController())
+      ChangeNotifierProvider<MessageController>(
+          create: (_) => MessageController())
     ],
     child: const MyApp(),
   ));

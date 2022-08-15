@@ -11,7 +11,7 @@ class Auth with ChangeNotifier {
   String? _firstName;
   String? _phoneNumber;
   String? _bio;
-
+  int? _id;
   String? _dob;
   String? _profilePicture;
   int? _educationLevelId;
@@ -19,6 +19,7 @@ class Auth with ChangeNotifier {
   // bool _isLoading = false;
 
   _fromJson(Map<String, dynamic> json) {
+    _id = json['id'];
     _token = json['access_token'];
     _firstName = json['user']['first_name'];
     _lastName = json['user']['last_name'];
@@ -30,6 +31,7 @@ class Auth with ChangeNotifier {
   }
 
   _fromJsonUserData(Map<String, dynamic> json) {
+    _id = json['id'];
     _firstName = json['first_name'];
     _lastName = json['last_name'];
     _phoneNumber = json['phone_number'] ?? _phoneNumber;
@@ -46,7 +48,10 @@ class Auth with ChangeNotifier {
   }
 
   Future logout(token) async {
-    await apiBaseHelper.post(url: '/user/login', token: token, payload: null);
+    await apiBaseHelper.post(url: '/api/logout', token: token, payload: null);
+    _token = null;
+    StorageManager.deleteData('authToken');
+    notifyListeners();
   }
 
   Future signIn(phoneNo) async {
@@ -127,10 +132,10 @@ class Auth with ChangeNotifier {
       'date_of_birth': dob.toString(),
       'education_level_id': eduLevelId,
     };
-    print('😁😀 before update profile');
+    // print('😁😀 before update profile');
     var editResponse = await apiBaseHelper.post(
         url: '/user/update_profile', payload: userInfo, token: token);
-    print(editResponse);
+    // print(editResponse);
     if (editResponse != null) {
       _fromJsonUserData(editResponse);
     }
@@ -166,6 +171,10 @@ class Auth with ChangeNotifier {
 
   get dob {
     return _dob;
+  }
+
+  get id {
+    return _id;
   }
   // bool get isLoading {
   //   return _isLoading;

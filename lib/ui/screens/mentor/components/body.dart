@@ -61,46 +61,6 @@ class Body extends StatelessWidget {
   }
 }
 
-//  class MentorFilterList extends StatelessWidget {
-//   const MentorFilterList({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(left: kDefaultPadding),
-//       child: SizedBox(
-//         height: 40,
-//         child: ListView(
-//           scrollDirection: Axis.horizontal,
-//           children: [
-//             MentorFilterItem(
-//               field: 'Physician',
-//               onPress: () {},
-//             ),
-//             MentorFilterItem(
-//               field: 'Musician',
-//               onPress: () {},
-//             ),
-//             MentorFilterItem(
-//               field: 'Athlet',
-//               onPress: () {},
-//             ),
-//             MentorFilterItem(
-//               field: 'Programmer',
-//               onPress: () {},
-//             ),
-//             MentorFilterItem(
-//               field: 'Model',
-//               onPress: () {},
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class MentorListItem extends StatelessWidget {
   String name;
@@ -146,31 +106,3 @@ class MentorListItem extends StatelessWidget {
     );
   }
 }
-
-// class MentorFilterItem extends StatelessWidget {
-//   String field;
-//    final VoidCallback  onPress;
-//   MentorFilterItem({
-//     required this.field,
-//     required this.onPress,
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: onPress,
-//       child: Container(
-//         padding: const EdgeInsets.symmetric(horizontal: 10),
-//         margin: const EdgeInsets.only(right: kDefaultPadding / 2),
-//         decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(40), color: kSecondaryColor),
-//         child: Center(
-//             child: Text(
-//           field,
-//           style: const TextStyle(color: Colors.white),
-//         )),
-//       ),
-//     );
-//   }
-// }

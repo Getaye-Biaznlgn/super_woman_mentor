@@ -16,6 +16,6 @@ class Experience {
         organization: json['organization'],
         to: json['to'],
         from: json['from'],
-        isCurrent: int.parse(json["is_current"]) );
+        isCurrent: json["is_current"]);
   }
 }

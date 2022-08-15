@@ -46,7 +46,7 @@ dependencies:
   flutter_html:
   # just_audio: ^0.9.28
   audioplayers:
-  ably_flutter:
+  ably_flutter: ^1.2.15
   audio_video_progress_bar:
   # audio_session: ^0.1.10
   # pusher_channels_flutter:

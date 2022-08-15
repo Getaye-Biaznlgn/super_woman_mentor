@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:super_woman_user/controller/message_controller.dart';
+import 'package:super_woman_user/providers/auth.dart';
 
 import '../../../utils/constants.dart';
 import 'components/body.dart';
@@ -11,7 +11,7 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<MessageController>(context).bindAbly();
+    // Provider.of<MessageController>(context).bindAbly();
     return Scaffold(
       appBar: buildAppBar(context),
       body: Body(),
@@ -19,14 +19,14 @@ class ChatScreen extends StatelessWidget {
   }
 
   AppBar buildAppBar(BuildContext context) {
+    Auth auth = Provider.of<Auth>(context);
     return AppBar(
       titleSpacing: 0,
-      title: const ListTile(
+      title: ListTile(
         leading: CircleAvatar(
-          child: Text(
-            // name.substring(0, 1).toUpperCase(),
-            'E',
-            style: TextStyle(
+          child:  Text(
+            auth.firstName.toString().substring(0,1),
+            style: const TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
           ),
           backgroundColor: kPrimaryColor,
